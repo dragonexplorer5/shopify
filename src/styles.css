@@ -1,0 +1,241 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+  padding-top: 20px;
+}
+
+header h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+main {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.search-section {
+  margin-bottom: 30px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+}
+
+#queryInput {
+  flex: 1;
+  padding: 15px;
+  font-size: 1em;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+#queryInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#searchBtn {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#searchBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+#searchBtn:active {
+  transform: translateY(0);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.spinner {
+  border: 4px solid #f0f0f0;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.results {
+  margin-top: 30px;
+}
+
+.interpretation {
+  background: #e3f2fd;
+  border-left: 4px solid #2196F3;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  color: #1565c0;
+  font-size: 0.95em;
+}
+
+.sort-info {
+  background: #f3e5f5;
+  border-left: 4px solid #9c27b0;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  color: #6a1b9a;
+  font-size: 0.95em;
+}
+
+.result-item {
+  background: #f9f9f9;
+  border-left: 4px solid #667eea;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.rank-badge {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+.result-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.result-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  padding-right: 60px;
+}
+
+.result-link {
+  color: #667eea;
+  text-decoration: none;
+  word-break: break-all;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.result-link:hover {
+  text-decoration: underline;
+}
+
+.result-description {
+  color: #666;
+  font-size: 0.95em;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.result-meta {
+  font-size: 0.85em;
+  color: #999;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.best-deal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.best-deal h3 {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.best-deal p {
+  margin-bottom: 5px;
+  opacity: 0.95;
+}
+
+.best-deal-button {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.best-deal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.error {
+  background: #fee;
+  border-left: 4px solid #f44336;
+  color: #c62828;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.hidden {
+  display: none !important;
+}

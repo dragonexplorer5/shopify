@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify - AI Powered Shopping Link Finder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>�️ Shopify</h1>
+      <p>AI-Powered Shopping Assistant</p>
+    </header>
+
+    <main>
+      <div class="search-section">
+        <div class="search-box">
+          <input 
+            type="text" 
+            id="queryInput" 
+            placeholder="e.g., Find me a cheap Christmas tree with fast delivery..." 
+            onkeypress="if(event.key === 'Enter') performSearch()"
+          >
+          <button id="searchBtn" onclick="performSearch()">Search</button>
+        </div>
+      </div>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Searching the web...</p>
+      </div>
+
+      <div id="results" class="results hidden">
+        <div id="resultsContent"></div>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
