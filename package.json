@@ -1,0 +1,27 @@
+{
+  "name": "shopify-ai",
+  "version": "1.0.0",
+  "description": "AI-Powered Shopping Assistant",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "keywords": [
+    "ai",
+    "link",
+    "finder",
+    "gemini"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^42.2.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.3.0",
+    "axios": "^1.7.0",
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^25.0.4"
+  }
+}
