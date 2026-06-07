@@ -1,0 +1,271 @@
+<!-- ============================================================================
+     SHOP SCANNER UI COMPONENTS
+     ============================================================================
+     
+     Add these HTML sections to src/index.html to enable the new 
+     parallel shop scanner functionality.
+     
+     These components work with:
+     - window.api.scanShops(urls) in preload.js
+     - performShopScan() in app.js
+     - displayScanResults() in app.js
+     - checkWorkerHealth() in app.js
+     
+     ========================================================================== -->
+
+<!-- 
+  ============================================================================
+  OPTION 1: MINIMAL UI (Recommended for Quick Integration)
+  ============================================================================
+  
+  Add this after the main search form in index.html
+-->
+
+<div id="shopScanSection" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #007bff;">
+  <h3 style="margin-top: 0;">🛍️ Parallel Shop Scanner</h3>
+  <p style="font-size: 12px; color: #666; margin: 5px 0 15px 0;">
+    Scan multiple shops in parallel via Cloudflare Workers with automatic proxy rotation
+  </p>
+  
+  <div style="margin-bottom: 12px;">
+    <label for="shopUrlsInput" style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px;">
+      Shop URLs (comma-separated):
+    </label>
+    <textarea
+      id="shopUrlsInput"
+      placeholder="https://amazon.com/s?k=laptop, https://ebay.com/sch/i.html?_nkw=laptop, https://walmart.com/search?q=laptop"
+      style="width: 100%; height: 60px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px; resize: vertical;"
+    ></textarea>
+  </div>
+
+  <div style="display: flex; gap: 10px; align-items: center;">
+    <button 
+      onclick="performShopScan()" 
+      style="flex: 1; padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.3s;"
+      onmouseover="this.style.background='#0056b3'"
+      onmouseout="this.style.background='#007bff'"
+    >
+      📊 Scan Shops
+    </button>
+    <button 
+      onclick="checkWorkerHealth()" 
+      style="flex: 1; padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.3s;"
+      onmouseover="this.style.background='#1e7e34'"
+      onmouseout="this.style.background='#28a745'"
+    >
+      🟢 Check Worker
+    </button>
+  </div>
+
+  <div style="margin-top: 10px; font-size: 11px; color: #999;">
+    💡 Tip: Use 3-5 shops for best results. Each shop scanned in parallel with random proxy.
+  </div>
+</div>
+
+
+<!-- 
+  ============================================================================
+  OPTION 2: ADVANCED UI (With Preset Examples & More Options)
+  ============================================================================
+  
+  Use this if you want more features and preset examples
+-->
+
+<div id="shopScanSectionAdvanced" style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; color: white;">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+    <div>
+      <h3 style="margin: 0;">🛍️ Advanced Shop Scanner</h3>
+      <p style="font-size: 12px; opacity: 0.9; margin: 4px 0 0 0;">
+        Parallel scanning via Cloudflare Workers (40+ proxy pool)
+      </p>
+    </div>
+    <button 
+      onclick="checkWorkerHealth()"
+      style="padding: 8px 12px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;"
+    >
+      🟢 Worker Status
+    </button>
+  </div>
+
+  <!-- Preset Examples -->
+  <div style="margin-bottom: 12px; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 4px;">
+    <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: bold;">Quick Presets:</p>
+    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+      <button 
+        onclick="document.getElementById('shopUrlsInputAdvanced').value = 'https://amazon.com/s?k=laptop, https://ebay.com/sch/i.html?_nkw=laptop, https://walmart.com/search?q=laptop'"
+        style="padding: 6px 10px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 3px; cursor: pointer; font-size: 11px;"
+      >
+        💻 Laptops
+      </button>
+      <button 
+        onclick="document.getElementById('shopUrlsInputAdvanced').value = 'https://amazon.com/s?k=smartphone, https://ebay.com/sch/i.html?_nkw=smartphone, https://walmart.com/search?q=smartphone'"
+        style="padding: 6px 10px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 3px; cursor: pointer; font-size: 11px;"
+      >
+        📱 Phones
+      </button>
+      <button 
+        onclick="document.getElementById('shopUrlsInputAdvanced').value = 'https://amazon.com/s?k=headphones, https://ebay.com/sch/i.html?_nkw=headphones'"
+        style="padding: 6px 10px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 3px; cursor: pointer; font-size: 11px;"
+      >
+        🎧 Headphones
+      </button>
+      <button 
+        onclick="document.getElementById('shopUrlsInputAdvanced').value = ''"
+        style="padding: 6px 10px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 3px; cursor: pointer; font-size: 11px;"
+      >
+        ✕ Clear
+      </button>
+    </div>
+  </div>
+
+  <!-- Shop URLs Input -->
+  <div style="margin-bottom: 12px;">
+    <label for="shopUrlsInputAdvanced" style="display: block; margin-bottom: 6px; font-size: 13px; font-weight: bold;">
+      Target Shop URLs:
+    </label>
+    <textarea
+      id="shopUrlsInputAdvanced"
+      placeholder="Paste shop URLs here (one per line or comma-separated)&#10;Example: https://amazon.com/s?k=laptop, https://ebay.com/sch/i.html?_nkw=laptop"
+      style="width: 100%; height: 70px; padding: 10px; border: none; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px; resize: vertical; background: rgba(255,255,255,0.95); color: #333;"
+    ></textarea>
+  </div>
+
+  <!-- Options -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+    <div>
+      <label style="font-size: 12px; display: flex; align-items: center; gap: 6px;">
+        <input type="checkbox" id="enableLogging" checked>
+        <span>Console Logging</span>
+      </label>
+    </div>
+    <div>
+      <label style="font-size: 12px; display: flex; align-items: center; gap: 6px;">
+        <input type="checkbox" id="showProxyInfo" checked>
+        <span>Show Proxy Info</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div style="display: flex; gap: 10px;">
+    <button 
+      onclick="performShopScan()" 
+      style="flex: 1; padding: 12px; background: white; color: #667eea; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s;"
+      onmouseover="this.style.transform='scale(1.02)'"
+      onmouseout="this.style.transform='scale(1)'"
+    >
+      📊 Start Parallel Scan
+    </button>
+  </div>
+
+  <div style="margin-top: 10px; font-size: 11px; opacity: 0.9;">
+    ⚡ Each shop uses random proxy • Auto-retry on failure • Real-time progress tracking
+  </div>
+</div>
+
+
+<!-- 
+  ============================================================================
+  EXISTING COMPONENTS (Already in index.html, shown for reference)
+  ============================================================================
+-->
+
+<!-- Loading Spinner (for reference - should already exist) -->
+<div id="loading" class="hidden" style="text-align: center; padding: 20px;">
+  <div style="animation: spin 1s linear infinite; display: inline-block; font-size: 24px;">⏳</div>
+  <p>Scanning shops...</p>
+</div>
+
+<!-- Error Message (for reference - should already exist) -->
+<div id="error" class="hidden" style="padding: 12px; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 12px;"></div>
+
+<!-- Results Container (for reference - should already exist) -->
+<div id="results" class="hidden" style="margin-top: 20px; padding: 15px; background: white; border: 1px solid #ddd; border-radius: 8px;">
+  <div id="resultsContent"></div>
+</div>
+
+
+<!-- 
+  ============================================================================
+  CSS STYLES (Add to <style> section or external CSS)
+  ============================================================================
+-->
+
+<style>
+  .hidden {
+    display: none !important;
+  }
+
+  #shopScanSection button, #shopScanSectionAdvanced button {
+    transition: all 0.3s ease;
+  }
+
+  #shopScanSection button:active, #shopScanSectionAdvanced button:active {
+    transform: scale(0.98);
+  }
+
+  #shopUrlsInput, #shopUrlsInputAdvanced {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  #shopUrlsInput:focus, #shopUrlsInputAdvanced:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+  }
+
+  .scan-summary {
+    animation: slideIn 0.3s ease;
+  }
+
+  .scan-result-item {
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+</style>
+
+
+<!-- 
+  ============================================================================
+  USAGE INSTRUCTIONS
+  ============================================================================
+
+1. Choose either OPTION 1 (minimal) or OPTION 2 (advanced)
+
+2. Add the chosen section to your src/index.html file
+
+3. Make sure these scripts are loaded after the HTML:
+   - The updated src/app.js (with performShopScan, displayScanResults, etc.)
+   - The updated src/preload.js (with window.api.scanShops)
+   - The updated main.js (with scan-shops IPC handler)
+
+4. The functions automatically called by the buttons are:
+   - performShopScan() - Initiates the scan
+   - displayScanResults() - Shows results with proxy info
+   - checkWorkerHealth() - Verifies Worker status
+
+5. Test by:
+   a. Start app with CLOUDFLARE_WORKER_URL environment variable set
+   b. Click "Check Worker" button (green button)
+   c. Enter shop URLs in the textarea
+   d. Click "Scan Shops" button (blue button)
+   e. Watch results appear with proxy rotation info
+
+6. Monitor DevTools Console (F12) for detailed logs
+
+  ========================================================================== -->

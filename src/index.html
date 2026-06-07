@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify - AI Powered Shopping Link Finder</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ==================== PERK PROFILE STYLES ==================== */
+    .perk-section {
+      margin-top: 25px;
+      padding: 15px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+      border-radius: 8px;
+      border-left: 4px solid #28a745;
+    }
+
+    .perk-section h2 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #28a745;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .perk-section h3 {
+      margin: 12px 0 8px 0;
+      font-size: 13px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .perk-group {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .perk-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .perk-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    .perk-checkbox {
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    .perk-label {
+      cursor: pointer;
+      flex: 1;
+      user-select: none;
+      color: #333;
+    }
+
+    .perk-input-group {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .perk-input-group input {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .perk-input-group button {
+      padding: 6px 12px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .perk-input-group button:hover {
+      background: #218838;
+    }
+
+    .perk-summary {
+      padding: 8px 12px;
+      background: white;
+      border-radius: 4px;
+      border-left: 3px solid #28a745;
+      font-size: 11px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .perk-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .perk-actions button {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .perk-actions button:hover {
+      background: #f0f0f0;
+      border-color: #999;
+    }
+
+    .perk-actions .btn-clear {
+      color: #dc3545;
+    }
+
+    .perk-actions .btn-clear:hover {
+      background: #fff5f5;
+      border-color: #dc3545;
+    }
+
+    /* ==================== SHARED STYLES ==================== */
+    .perk-toggle-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .perk-toggle-btn:hover {
+      background: #218838;
+    }
+
+    .perk-toggle-btn.collapsed::after {
+      content: ' ▼';
+    }
+
+    .perk-toggle-btn.expanded::after {
+      content: ' ▲';
+    }
+
+    /* ==================== REWARD PROGRESS STYLES ==================== */
+    .reward-section {
+      margin-top: 25px;
+      padding: 15px;
+      background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+      border-radius: 8px;
+      border-left: 4px solid #f39c12;
+    }
+
+    .reward-section h2 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #f39c12;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reward-section h3 {
+      margin: 12px 0 8px 0;
+      font-size: 13px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .reward-program {
+      margin-bottom: 12px;
+      padding: 10px;
+      background: white;
+      border-radius: 4px;
+      border-left: 3px solid #f39c12;
+    }
+
+    .reward-program-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .reward-program-name {
+      font-weight: bold;
+      color: #333;
+      font-size: 13px;
+    }
+
+    .reward-program-tier {
+      font-size: 11px;
+      color: #999;
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .reward-progress-item {
+      margin: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .reward-progress-item label {
+      min-width: 80px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .reward-progress-item input {
+      flex: 1;
+      padding: 4px 6px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .reward-progress-item input:focus {
+      outline: none;
+      border-color: #f39c12;
+      box-shadow: 0 0 3px rgba(243, 156, 18, 0.3);
+    }
+
+    .reward-earning-suggestion {
+      margin-top: 8px;
+      padding: 6px 8px;
+      background: #fff3cd;
+      border-left: 2px solid #ffc107;
+      border-radius: 3px;
+      font-size: 11px;
+      color: #856404;
+    }
+
+    .reward-earning-suggestion strong {
+      color: #f39c12;
+    }
+
+    .reward-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .reward-actions button {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .reward-actions button:hover {
+      background: #f9f9f9;
+      border-color: #f39c12;
+      color: #f39c12;
+    }
+
+    /* ==================== ACCOUNT BENEFITS STYLES ==================== */
+    .account-benefits-section {
+      margin-top: 15px;
+      padding: 15px;
+      background: linear-gradient(135deg, #f5f0ff 0%, #e8dcf8 100%);
+      border-radius: 8px;
+      border-left: 4px solid #9b59b6;
+      display: none;
+    }
+
+    .account-benefits-section.expanded {
+      display: block;
+    }
+
+    .account-benefits-section h2 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #9b59b6;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .benefit-form {
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+    }
+
+    .benefit-item {
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      border-left: 3px solid #9b59b6;
+    }
+
+    .benefit-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .benefit-item-name {
+      font-weight: bold;
+      color: #333;
+      font-size: 13px;
+    }
+
+    .benefit-item-status {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: #e8f4f8;
+      color: #0288d1;
+    }
+
+    .benefit-item-status.available {
+      background: #c8e6c9;
+      color: #2e7d32;
+    }
+
+    .benefit-item-status.almost-unlocked {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .benefit-progress {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    .benefit-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .benefit-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #9b59b6, #8e44ad);
+      transition: width 0.3s;
+    }
+
+    .benefit-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .benefit-actions button {
+      padding: 4px 8px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+
+    .benefit-actions button:hover {
+      background: #f5f5f5;
+      border-color: #9b59b6;
+      color: #9b59b6;
+    }
+
+    .savings-suggestion {
+      background: #fffacd;
+      border-left: 2px solid #9b59b6;
+      padding: 8px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: #333;
+    }
+
+    .savings-suggestion-amount {
+      color: #9b59b6;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    /* Shop Directory removed */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>�️ Shopify</h1>
+      <p>AI-Powered Shopping Assistant</p>
+    </header>
+
+    <main>
+      <div class="search-section">
+        <div class="search-box">
+          <input 
+            type="text" 
+            id="queryInput" 
+            placeholder="e.g., christmas tree" 
+            onkeypress="if(event.key === 'Enter') performSearch()"
+          >
+          <button id="searchBtn" onclick="performSearch()">Search</button>
+        </div>
+        
+        <div class="price-filter">
+          <label>Price Range (Optional):</label>
+          <div class="price-inputs">
+            <input 
+              type="number" 
+              id="minPrice" 
+              placeholder="Min ($)" 
+              min="0"
+            >
+            <span class="dash">–</span>
+            <input 
+              type="number" 
+              id="maxPrice" 
+              placeholder="Max ($)" 
+              min="0"
+            >
+          </div>
+        </div>
+      </div>
+
+      <button class="perk-toggle-btn expanded" onclick="togglePerkSection()">💳 Your Perks & Rewards (Click to expand)</button>
+      
+      <div id="perkSection" class="perk-section">
+        <h2>💳 Your Perks & Rewards</h2>
+        <p style="font-size: 11px; color: #666; margin: 0 0 12px 0;">
+          Add your gift cards, store rewards, and credit card perks to get personalized shopping recommendations.
+          <strong>Your data is never stored on our servers — it only helps the AI understand your benefits.</strong>
+        </p>
+
+        <!-- Gift Cards -->
+        <div class="perk-group">
+          <h3>🎁 Gift Cards</h3>
+          <div class="perk-item">
+            <input type="checkbox" id="walmart-gc" class="perk-checkbox">
+            <label for="walmart-gc" class="perk-label">Walmart Gift Card</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="target-gc" class="perk-checkbox">
+            <label for="target-gc" class="perk-label">Target Gift Card</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="amazon-gc" class="perk-checkbox">
+            <label for="amazon-gc" class="perk-label">Amazon Gift Card</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="bestbuy-gc" class="perk-checkbox">
+            <label for="bestbuy-gc" class="perk-label">Best Buy Gift Card</label>
+          </div>
+          <div class="perk-input-group">
+            <input type="text" id="customGcInput" placeholder="Other store...">
+            <button onclick="addCustomGiftCard()">Add</button>
+          </div>
+        </div>
+
+        <!-- Reward Programs -->
+        <div class="perk-group">
+          <h3>🏆 Reward Programs</h3>
+          <div class="perk-item">
+            <input type="checkbox" id="target-circle" class="perk-checkbox">
+            <label for="target-circle" class="perk-label">Target Circle</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="bestbuy-rewards" class="perk-checkbox">
+            <label for="bestbuy-rewards" class="perk-label">Best Buy Rewards</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="walmart-plus" class="perk-checkbox">
+            <label for="walmart-plus" class="perk-label">Walmart+ Member</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="amazon-prime" class="perk-checkbox">
+            <label for="amazon-prime" class="perk-label">Amazon Prime</label>
+          </div>
+          <div class="perk-input-group">
+            <input type="text" id="customRpInput" placeholder="Other program...">
+            <button onclick="addCustomRewardProgram()">Add</button>
+          </div>
+        </div>
+
+        <!-- Credit Card Perks -->
+        <div class="perk-group">
+          <h3>💰 Credit Card Perks</h3>
+          <p style="font-size: 10px; color: #999; margin: 0 0 6px 0;">Only public perks like "5% back at retailers" — never enter card numbers</p>
+          <div class="perk-item">
+            <input type="checkbox" id="chase-dining" class="perk-checkbox">
+            <label for="chase-dining" class="perk-label">Chase: 5% back on dining</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="amex-shopping" class="perk-checkbox">
+            <label for="amex-shopping" class="perk-label">Amex: 3% back on shopping</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="discover-bonus" class="perk-checkbox">
+            <label for="discover-bonus" class="perk-label">Discover: Rotating 5% categories</label>
+          </div>
+          <div class="perk-input-group">
+            <input type="text" id="customCcInput" placeholder="Bank + benefit (e.g., Chase: 2% groceries)">
+            <button onclick="addCustomCreditCardPerk()">Add</button>
+          </div>
+        </div>
+
+        <!-- Promo Credits -->
+        <div class="perk-group">
+          <h3>🎉 Promo Credits</h3>
+          <div class="perk-item">
+            <input type="checkbox" id="amazon-promo" class="perk-checkbox">
+            <label for="amazon-promo" class="perk-label">Amazon Promo Credit</label>
+          </div>
+          <div class="perk-item">
+            <input type="checkbox" id="uber-credit" class="perk-checkbox">
+            <label for="uber-credit" class="perk-label">Uber Eats Credit</label>
+          </div>
+          <div class="perk-input-group">
+            <input type="text" id="customPromoInput" placeholder="Retailer + benefit...">
+            <button onclick="addCustomPromoCredit()">Add</button>
+          </div>
+        </div>
+
+        <!-- Summary & Actions -->
+        <div class="perk-summary" id="perkSummary">
+          No perks configured yet
+        </div>
+
+        <div class="perk-actions">
+          <button onclick="savePerkProfile()">✅ Save Perks</button>
+          <button onclick="loadPerkProfile()">🔄 Load Perks</button>
+          <button class="btn-clear" onclick="clearPerkProfile()">🗑️ Clear All</button>
+        </div>
+      </div>
+
+      <!-- Reward Progress Tracking Section -->
+      <button class="perk-toggle-btn expanded" onclick="toggleRewardSection()" style="background: #f39c12;">⭐ Track Reward Progress (Click to expand)</button>
+      
+      <div id="rewardSection" class="reward-section">
+        <h2>⭐ Track Your Reward Progress</h2>
+        <p style="font-size: 11px; color: #666; margin: 0 0 12px 0;">
+          Track points, stamps, tiers, and earning progress in your reward programs.
+          The AI will suggest items that help you reach your next reward milestone.
+        </p>
+
+        <!-- Dynamically populated reward programs will appear here -->
+        <div id="rewardProgramsList">
+          <p style="font-size: 11px; color: #999; padding: 8px; text-align: center;">
+            No reward programs configured yet. Add reward programs above first.
+          </p>
+        </div>
+
+        <!-- Earning Suggestions (shown after search) -->
+        <div id="earningSuggestionsContainer" style="display: none; margin-top: 12px;">
+          <h3>💡 How to Maximize Earnings</h3>
+          <div id="earningSuggestions" style="font-size: 11px; color: #555;"></div>
+        </div>
+
+        <div class="reward-actions">
+          <button onclick="saveRewardProgress()">✅ Save Progress</button>
+          <button onclick="loadRewardProgress()">🔄 Load Progress</button>
+          <button class="btn-clear" onclick="clearRewardProgress()">🗑️ Clear All</button>
+        </div>
+      </div>
+
+      <!-- Account Benefits Section -->
+      <button class="perk-toggle-btn expanded" onclick="toggleAccountBenefitsSection()" style="background: #9b59b6; margin-top: 15px;">
+        💳 Account Benefits (Click to expand)
+      </button>
+
+      <div id="accountBenefitsSection" class="account-benefits-section">
+        <h2>💳 Account Benefits</h2>
+        <p style="font-size: 11px; color: #666; margin: 0 0 12px 0;">
+          Add spending, credit, or promotional benefits from your accounts (e.g., Uber Eats $50 credit after 700 purchases).
+          The AI will analyze each search result and show you how much you can save.
+        </p>
+
+        <!-- Add New Benefit Form -->
+        <div class="benefit-form">
+          <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 13px; color: #666;">Add New Benefit</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+            <input type="text" id="benefitName" placeholder="e.g., Uber Eats Credit" style="padding: 6px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 11px;">
+            <input type="number" id="benefitAmount" placeholder="Amount" style="padding: 6px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 11px;">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+            <input type="text" id="benefitRequirement" placeholder="Requirement (e.g., 700 purchases)" style="padding: 6px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 11px;">
+            <input type="number" id="benefitProgress" placeholder="Current progress" style="padding: 6px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 11px;">
+          </div>
+          <button onclick="addAccountBenefit()" style="width: 100%; padding: 8px; background: #9b59b6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">
+            ➕ Add Benefit
+          </button>
+        </div>
+
+        <!-- Account Benefits List -->
+        <div id="accountBenefitsList" style="margin-top: 12px;">
+          <p style="font-size: 11px; color: #999; padding: 8px; text-align: center;">
+            No account benefits added yet.
+          </p>
+        </div>
+
+        <!-- Account Benefits Summary -->
+        <div id="accountBenefitsSummary" style="margin-top: 12px; padding: 8px; background: #f0f0f0; border-radius: 4px; font-size: 11px; color: #666; display: none;"></div>
+
+        <!-- Savings Analysis Section -->
+        <div id="savingsAnalysisContainer" style="display: none; margin-top: 15px; padding-top: 12px; border-top: 1px solid #ddd;">
+          <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 13px; color: #666;">💰 Savings Opportunities</h3>
+          <div id="savingsSuggestions" style="font-size: 11px; color: #555;"></div>
+        </div>
+      </div>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Searching the web...</p>
+      </div>
+
+      <div id="results" class="results hidden">
+        <div id="resultsContent"></div>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
